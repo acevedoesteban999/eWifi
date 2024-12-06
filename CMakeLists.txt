@@ -1,0 +1,9 @@
+idf_component_register(
+    SRCS 
+        "eWifi.c"
+    INCLUDE_DIRS 
+        "include"
+    REQUIRES
+        esp_wifi 
+        eStore       
+)
