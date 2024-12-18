@@ -1,6 +1,9 @@
 #include "eWifi.h"
 
 
+char ESP_WIFI_SSID[32] = "ESP32";
+char ESP_WIFI_PASS[64] = "ESP32_PASSW";
+
 // Manejador de eventos de WiFi
 void wifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id, void *event_data)
 {
@@ -15,6 +18,11 @@ void wifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id,
     }
 }
 
+void wifi_set_ssid_pass(char*SSID,char*PASS){
+    strcpy(ESP_WIFI_SSID,SSID);
+    strcpy(ESP_WIFI_PASS,PASS);    
+}
+
 // Inicializa el modo SoftAP
 void wifi_init_softap(void)
 {
@@ -26,17 +34,16 @@ void wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
     // Registra el manejador de eventos de WiFi
     ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
-
     // Configuración del AP
     wifi_config_t wifi_config = {
         .ap = {
-            .ssid = ESP_WIFI_SSID,
             .ssid_len = strlen(ESP_WIFI_SSID),
-            .password = ESP_WIFI_PASS,
             .max_connection = MAX_STA_CONN,
             .authmode = WIFI_AUTH_WPA_WPA2_PSK
         },
     };
+    strncpy((char *)wifi_config.ap.ssid, ESP_WIFI_SSID, sizeof(wifi_config.ap.ssid));
+    strncpy((char *)wifi_config.ap.password, ESP_WIFI_PASS, sizeof(wifi_config.ap.password));
 
     // Si no hay contraseña, establece el modo abierto
     if (strlen(ESP_WIFI_PASS) == 0) {
