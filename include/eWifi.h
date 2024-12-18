@@ -6,8 +6,7 @@
 #include "eStore.h"
 #include "lwip/inet.h"
 
-#define ESP_WIFI_SSID "ESP32"
-#define ESP_WIFI_PASS "ESP32_PASSW"
 #define MAX_STA_CONN 4
-
 void wifi_init_softap(void);
+
+void wifi_set_ssid_pass(char *SSID, char *PASS);
