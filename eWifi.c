@@ -5,7 +5,7 @@ char ESP_WIFI_SSID[32] = "ESP32";
 char ESP_WIFI_PASS[64] = "ESP32_PASSW";
 
 // Manejador de eventos de WiFi
-void wifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id, void *event_data)
+void ewifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id, void *event_data)
 {
     // Maneja los eventos de conexión y desconexión de estaciones
     if (event_id == WIFI_EVENT_AP_STACONNECTED) {
@@ -18,13 +18,13 @@ void wifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id,
     }
 }
 
-void wifi_set_ssid_pass(char*SSID,char*PASS){
+void ewifi_set_ssid_pass(char*SSID,char*PASS){
     strcpy(ESP_WIFI_SSID,SSID);
     strcpy(ESP_WIFI_PASS,PASS);    
 }
 
 // Inicializa el modo SoftAP
-void wifi_init_softap(void)
+void ewifi_init(void)
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -33,7 +33,7 @@ void wifi_init_softap(void)
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
     // Registra el manejador de eventos de WiFi
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &ewifi_event_handler, NULL));
     // Configuración del AP
     wifi_config_t wifi_config = {
         .ap = {
@@ -63,6 +63,6 @@ void wifi_init_softap(void)
     inet_ntoa_r(ip_info.ip.addr, ip_addr, 16);
     ESP_LOGI("", "Set up softAP with IP: %s", ip_addr);
 
-    ESP_LOGI("", "wifi_init_softap finished. SSID:'%s' password:'%s'",
+    ESP_LOGI("", "ewifi_init finished. SSID:'%s' password:'%s'",
              ESP_WIFI_SSID, ESP_WIFI_PASS);
 }
