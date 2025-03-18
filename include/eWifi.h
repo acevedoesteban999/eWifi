@@ -7,6 +7,9 @@
 #include "lwip/inet.h"
 
 #define MAX_STA_CONN 4
+#define DEFAULT_SSID "ESP32"
+#define DEFAULT_PASS "ESP32_PASSW"
+
 void ewifi_init(void);
 
 void ewifi_set_ssid_pass(char *SSID, char *PASS);
