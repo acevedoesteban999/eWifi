@@ -18,15 +18,15 @@ void ewifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id
 
 void ewifi_set_ssid_pass(char*SSID,char*PASS){
     estore_init();
-    estore_write_string('ewifi_ssid',ESP_WIFI_SSID);
-    estore_write_string('ewifi_pass',ESP_WIFI_PASS);
+    estore_write_string("ewifi_ssid",ESP_WIFI_SSID);
+    estore_write_string("ewifi_pass",ESP_WIFI_PASS);
 }
 
 void ewifi_init(void)
 {
     estore_init();
-    estore_read_string('ewifi_ssid',ESP_WIFI_SSID,sizeof(ESP_WIFI_SSID));
-    estore_read_string('ewifi_pass',ESP_WIFI_PASS,sizeof(ESP_WIFI_PASS));
+    estore_read_string("ewifi_ssid",ESP_WIFI_SSID,sizeof(ESP_WIFI_SSID));
+    estore_read_string("ewifi_pass",ESP_WIFI_PASS,sizeof(ESP_WIFI_PASS));
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(nvs_flash_init());
